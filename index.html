@@ -97,7 +97,7 @@
 
   <!-- メインパネル -->
   <!-- 縦並びの上から２個目のコンテナは、ui-routerのコンテナにする -->
-  <md-content id="mainPanel" layout="row" flex ui-view></md-content>
+  <div flex ui-view></div>
 
 </body>
 
@@ -140,18 +140,19 @@
   -->
 <script type="text/ng-template" id="vip.tpl">
 
-    <!-- データをローディングしている場合はProgress Linearを表示する -->
-    <md-content flex layout-padding ng-if="!vipCtrl.isDataFetched">
-      <md-progress-linear md-mode="query"></md-progress-linear>
-      <md-bottom-block>
-        <span><span class=""></span></span>
-      </md-bottom-block>
-    </md-content>
+  <!-- データをローディングしている場合はProgress Linearを表示する -->
+  <div flex layout-padding ng-if="!vipCtrl.isDataFetched">
+    <md-progress-linear md-mode="query"></md-progress-linear>
+    <md-bottom-block>
+      <span>データ取得中</span>
+    </md-bottom-block>
+  </div>
 
-    <!-- サイドバーとメインコンテンツで左右２つに割る -->
+  <!-- サイドバーとメインコンテンツで左右２つに割る -->
+  <div flex layout="row" ng-if="vipCtrl.isDataFetched">
 
     <!-- サイドバー -->
-    <md-sidenav id="sidenav" md-component-id="sidenav" class="site-sidenav md-sidenav-left md-whiteframe-z3" hide-print md-is-locked-open="!tc.hideSidenav();"  ng-if="vipCtrl.isDataFetched">
+    <md-sidenav id="sidenav" md-component-id="sidenav" class="site-sidenav md-sidenav-left md-whiteframe-z3" hide-print md-is-locked-open="!tc.hideSidenav();">
 
       <!-- サイドバーのタイトルはmd-hue-1で色を少し薄くする -->
       <md-toolbar class="md-toolbar-tools md-hue-1">
@@ -237,22 +238,22 @@
     </md-sidenav>
 
     <!-- メインコンテンツ -->
-    <md-content id="rightPanel" layout="column" flex layout-padding ng-controller="searchResultController as resultCtrl"  ng-if="vipCtrl.isDataFetched">
-
-      <!-- サイドナビを表示するボタン。画面サイズが小さいときだけこのボタンを出す -->
+    <md-content id="rightPanel" layout="column" flex layout-padding ng-controller="searchResultController as resultCtrl">
       <div>
+        <!-- サイドナビを表示するボタン。画面サイズが小さいときだけこのボタンを出す -->
         <span>
-          <md-button aria-label="open sidenav" class="md-fab md-mini" ng-click="tc.openSidenav();" ng-show="tc.enableShowSidenav();">
+          <md-button aria-label="open sidenav" class="md-fab md-mini" ng-click="tc.openSidenav()" ng-show="tc.enableShowSidenav()">
             <!-- <md-icon md-svg-icon="menu"></md-icon> -->
             <md-icon md-font-icon="fa-bars" class="fa"></md-icon>
           </md-button>
         </span>
+        <!-- 検索結果の数を表示する -->
         <span>検索結果　{{ resultCtrl.filtered.length }}　件</span>
       </div>
 
       <div>
         <md-list>
-          <md-list-item class="md-3-line" ng-click="resultCtrl.showDetail($event, item.id)" dir-paginate="item in resultCtrl.filtered | itemsPerPage : resultCtrl.itemsPerPage track by item.id">
+          <md-list-item class="md-3-line" ng-click="resultCtrl.showDetail($event, item.id)" dir-paginate="item in resultCtrl.filtered | orderBy : 'address' | itemsPerPage : resultCtrl.itemsPerPage track by item.id">
             <div class="md-list-item-text" layout="column">
               <h3>{{item.address }} / {{item.port}}</h3>
               <h4>{{item.description }}</h4>
@@ -267,7 +268,7 @@
       <!-- メインコンテンツ・終わり -->
     </md-content>
 
-    </md-content>
+  </div>
 
   <!-- vip.tpl 終わり -->
 </script>

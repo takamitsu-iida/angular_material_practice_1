@@ -83,8 +83,8 @@
   // $resourceファクトリ 'vipResource'
   // REST APIを容易に利用できるようにする
   angular.module(moduleName).factory('vipResource', ['$resource', '$location', function($resource, $location) {
-    // :idはプレースホルダなので、/json/vip/100のようなURLに変換される
-    var url = $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/json/vip/:id';
+    // :idはプレースホルダなので、/data/vip/100のようなURLに変換される
+    var url = $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/data/vip/:id';
 
     // 標準で定義済みのアクション query, get, save, delete
     // 個別定義のアクション update
@@ -155,7 +155,7 @@
         .query()
         .$promise
         .then(function(data) {
-          // console.log(data);
+          console.log(data);
           // dataオブジェクトの'vip'キーに必要なJSONデータが入っているので、これを渡して整形する
           parseJson(data.vip);
         })
@@ -335,6 +335,7 @@
   }]);
 
   // トップページ用のコントローラ
+  // タイトルとか、日付とか、
   angular.module(moduleName).controller('indexController', [function() {
     var ctrl = this;
 
@@ -347,7 +348,7 @@
 
   // VIP Finder用のコントローラ
   // これの子供にはsearchParamControllerとsearchResultControllerがいる
-  angular.module(moduleName).controller('vipController', ['dataService', '$scope', function(dataService, $scope) {
+  angular.module(moduleName).controller('vipController', ['dataService', '$scope', '$mdToast', function(dataService, $scope, $mdToast) {
     var ctrl = this;
 
     // データ取得が完了しているかどうか、のフラグ
@@ -361,8 +362,18 @@
         ctrl.isDataFetched = newValue;
         if (handler && ctrl.isDataFetched) {
           handler();
+          showToast(dataService.ipcom_slb_rules.length.toString() + '件のSLBルールを取得しました');
         }
       });
+    }
+
+    function showToast(content) {
+      var toast = $mdToast.simple()
+        .content(content)
+        .position('top right')
+        .hideDelay(3000);
+
+      $mdToast.show(toast);
     }
   }]);
 
@@ -376,6 +387,7 @@
     svc.searchParam = {};
 
     // 検索条件をクリアする関数
+    // この関数は外部からも呼ばれる
     svc.clear = function() {
       svc.searchParam.md_selected_item = '';
       svc.searchParam.searchString = '';
@@ -430,8 +442,9 @@
     };
   }]);
 
-  // 検索条件を指定して検索する独自フィルタ
-  // 文字列での検索はここではしない
+  // フィルタ
+  // 場所、アドレス、ホスト名、等の<select>で指定された条件で検索する独自のフィルタ
+  // 文字列でのインクリメンタル検索はここではしない
   angular.module(moduleName).filter('search', function() {
     // フィルタは常に関数を返す
     // 第一引数はフィルタ対象の配列、第二引数はHTML側でコロン:を使って指定したもの
@@ -506,7 +519,7 @@
   // $watchするために、$scopeをインジェクトする
   // ui-routerでページ遷移するために$stateをインジェクトする
   // フィルタするために$filterをインジェクトする
-  angular.module(moduleName).controller('searchResultController', ['$scope', '$state', '$filter', '$log', '$mdBottomSheet', 'dataService', 'searchParamService', 'settingParamService', function($scope, $state, $filter, $log, $mdBottomSheet, dataService, searchParamService, settingParamService) {
+  angular.module(moduleName).controller('searchResultController', ['$scope', '$state', '$filter', '$log', 'dataService', 'searchParamService', 'settingParamService', function($scope, $state, $filter, $log, dataService, searchParamService, settingParamService) {
     var ctrl = this;
 
     // サービスが持っているプロパティをこのコントローラで使えるように取り込む
@@ -514,7 +527,7 @@
     angular.extend(ctrl, searchParamService);
     angular.extend(ctrl, settingParamService);
 
-    // フィルタ後のデータの初期値
+    // フィルタされた後のデータ
     ctrl.filtered = dataService.ipcom_slb_rules;
 
     // テーブルのソート用プロパティ
@@ -524,16 +537,17 @@
     // dir-paginateパラメータ
     ctrl.itemsPerPage = 10;
 
-    // ui-routerのページ遷移
+    // ui-routerのページ遷移関数
+    // 'vip_detail' に飛ぶ
     ctrl.showDetail = function(ev, id) {
       $state.go('vip_detail', {
         id: id
       });
     };
 
-    // 検索条件に変更が生じたら、フィルタを実行する
+    // $watchして検索条件に変更が生じたら、フィルタを実行する
     // $scope.$watch( , , true) という指定でオブジェクトの中身の変更を検知できるが処理が重い
-    // $scope.$watchCollection()を使った方がよい
+    // 配列やオブジェクトの1階層先を見るなら$scope.$watchCollection()を使った方がよい
     $scope.$watchCollection(
       function() {
         return ctrl.searchParam;

@@ -85,8 +85,8 @@ except Exception:
 
 
 # GETメソッドで_vipを返却
-@get('/json/vip')
-@get('/json/vip/')
+@get('/data/vip')
+@get('/data/vip/')
 def vip_get_handler():
   u"""VIP一覧をJSONで返却します."""
   # 戻り値となる辞書型データ
