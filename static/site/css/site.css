@@ -1,0 +1,370 @@
+@charset "UTF-8";
+
+/*
+ * リセット開始(ブラウザのデフォルトをあてにしない)
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 6pt;
+}
+
+ol,
+ul,
+dl {
+  list-style-position: inside;
+}
+
+/* リセット完了 */
+
+/*
+ * 標準セレクタ開始
+ */
+
+html, body {
+  font-family: Roboto, Arial, 'Droid Sans', '游ゴシック', YuGothic, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
+  height:100%;
+  background-color: #fafafa;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  font-weight: 800;
+  color: #000;
+}
+
+pre {
+  overflow: auto;
+  word-wrap: normal;
+}
+
+/* 標準セレクタ終了 */
+
+/*
+ * Utils
+ */
+
+.content-wrapper {
+  position: relative;
+}
+
+.content-wrapper {
+  position: relative;
+}
+
+span.name {
+  font-weight: bold;
+  font-size:1.1em;
+  padding-left:5px;
+}
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+md-bottom-sheet {
+  height: 80%;
+}
+
+
+/*
+ * AngularJS
+ * ng-cloak属性
+ */
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display: none !important;
+}
+
+
+/*
+ * AngularJS
+ * アニメーション設定
+ * 要素にclass="animated"を指定する
+ */
+
+.animated.ng-enter,
+.animated.ng-leave,
+.animated.ng-move {
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+
+.animated.ng-enter {
+  opacity: 0;
+}
+
+.animated.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.animated.ng-leave {
+  opacity: 1;
+}
+
+.animated.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+.animated.ng-move {
+  opacity: .5;
+}
+
+.animated.ng-move.ng-move-active {
+  opacity: 1;
+}
+
+[ui-view].animated.ng-enter,
+[ui-view].animated.ng-leave {
+  -webkit-transition: all 0.6s ease-in-out;
+  -moz-transition: all 0.6s ease-in-out;
+  -o-transition: all 0.6s ease-in-out;
+  transition: all 0.6s ease-in-out;
+}
+
+[ui-view].animated.ng-enter,
+[ui-view].animated.ng-leave-active {
+  opacity: 0;
+}
+
+[ui-view].animated.ng-leave,
+[ui-view].animated.ng-enter-active {
+  opacity: 1;
+}
+
+[ui-view].slideX {
+  -webkit-transition: -webkit-transform .7s ease-in-out;
+  -moz-transition: -moz-transform .7s ease-in-out;
+  -o-transition: -o-transform .7s ease-in-out;
+  transition: transform .7s ease-in-out;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+[ui-view].slideX.ng-enter {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+}
+
+[ui-view].slideX.ng-enter.ng-enter-active,
+.slide.ng-leave {
+  position: absolute;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+[ui-view].slideX.ng-leave.ng-leave-active {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+}
+
+
+/*
+ * トップページ
+ */
+
+.about-links {
+  color: #95a5a6;
+}
+
+.about-links a {
+  border-bottom: 1px dotted;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+.about-links li {
+  line-height: 30px;
+}
+
+.about-links li:hover,
+.about-links li:hover a {
+  color: #666;
+}
+
+.about-links .date:hover i {
+  color: #e74c3c;
+}
+
+.about-links .author:hover i {
+  color: #f39c12;
+}
+
+.about-links .mail:hover i {
+  color: #16a085;
+}
+
+
+/*
+ * テーブルで選択した行のクラス
+ */
+
+.selectedRow {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+}
+
+
+/*
+ * 丸くしたinput
+ */
+
+.input-search {
+  width: 98%;
+  padding: 5px 10px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 16px;
+  border-radius: 13px;
+  border: 1px solid #aaa;
+  outline: none;
+}
+
+.input-search:focus {
+  border-color: #008ed6;
+}
+
+/*
+ * virtual-repeatのコンテナは高さを決めないと動かない
+ */
+#vertical-container_not_used {
+  height: 45%;
+  border: solid 1px grey;
+}
+
+/*
+ * dir-pagination
+ * Bootstrap3のCSSをそのままコピー
+ * 見栄えがMaterial Designではなく、Bootstrapのようになってしまうが、仕方ない。
+ */
+
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #337ab7;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  z-index: 2;
+  color: #23527c;
+  background-color: #eee;
+  border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 3;
+  color: #fff;
+  cursor: default;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #777;
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ddd;
+}
+.pagination-lg > li > a,
+.pagination-lg > li > span {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+}
+.pagination-lg > li:first-child > a,
+.pagination-lg > li:first-child > span {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.pagination-lg > li:last-child > a,
+.pagination-lg > li:last-child > span {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.pagination-sm > li > a,
+.pagination-sm > li > span {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.pagination-sm > li:first-child > a,
+.pagination-sm > li:first-child > span {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.pagination-sm > li:last-child > a,
+.pagination-sm > li:last-child > span {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}

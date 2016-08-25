@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="iida.app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- IE9以降で正しく機能するようにする -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- description -->
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="Takamitsu IIDA">
+
+  <!-- viewportの設定 -->
+  <!-- width=device-width 表示領域の幅を端末画面の幅に設定 -->
+  <!-- initial-scale=1 表示倍率を１倍に設定 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- faviconの設定 -->
+  <!--
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="bookmark" href="/favicon.ico" />
+  -->
+
+  <!-- ブラウザのウィンドウやタブに表示されるタイトル -->
+  <title>VIP Finder</title>
+
+  <!-- Font Awesome -->
+  <link href="./static/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet">
+
+  <!-- AngularJS -->
+  <script src="./static/angular-1.5.8/angular.min.js"></script>
+
+  <!-- Angular Resource -->
+  <script src="./static/angular-1.5.8/angular-resource.min.js"></script>
+
+  <!-- Angular animate -->
+  <script src="./static/angular-1.5.8/angular-animate.min.js"></script>
+
+  <!-- Angular aria -->
+  <script src="./static/angular-1.5.8/angular-aria.min.js"></script>
+
+  <!-- Angular messages -->
+  <script src="./static/angular-1.5.8/angular-messages.min.js"></script>
+
+  <!-- Angular material -->
+  <script src="./static/angular-material-1.1.0-rc.5/angular-material.min.js"></script>
+  <link href="./static/angular-material-1.1.0-rc.5/angular-material.min.css" rel="stylesheet">
+
+  <!-- Angular materialはRobotoフォントを前提にしている -->
+  <!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900,300italic,400italic,500italic,700italic,900italic"> -->
+
+  <!-- Angular UI Router -->
+  <script src="./static/angular-ui-router-0.2.18/angular-ui-router.min.js"></script>
+
+  <!-- angular-utils-pagination -->
+  <script src="./static/angular-utils-pagination/dirPagination.js"></script>
+
+  <!-- サイトのCSS -->
+  <link href="./static/site/css/site.css" rel="stylesheet">
+
+  <!-- サイトのJavaScript -->
+  <script src="./static/site/js/iida.startup.js"></script>
+  <script src="./static/site/js/iida.main.js"></script>
+
+</head>
+
+<!--
+  layout="column"でコンテンツを縦並びにする
+  layout-fillで全画面に広げる
+  画面レイアウトを制御する最上位のコントローラtopControllerをバインドする
+-->
+
+<body layout="column" layout-fill ng-cloak ng-controller="topController as tc">
+
+  <!-- 縦並びの上から１個目はナビゲーション用のツールバー -->
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <!-- ツールバーに表示するタイトル -->
+      <h1>
+        <span><a href="#">{{::tc.logoTitle}}</a></span>
+      </h1>
+      <!--右寄せ-->
+      <span flex></span>
+      <!-- リンクアイコン(仮置き) -->
+      <md-button aria-label="vip finder" ui-sref="vip">VIP Finder</md-button>
+      <md-button aria-label="setting">リンク2</md-button>
+      <md-button aria-label="setting">リンク3</md-button>
+      <!-- 設定用のアイコン(仮置き) -->
+      <md-button aria-label="setting" class="md-icon-button">
+        <!-- <md-icon md-svg-icon="setting"></md-icon> -->
+        <md-icon md-font-icon="fa-gear" class="fa fa-2x"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <!-- メインパネル -->
+  <!-- 縦並びの上から２個目のコンテナは、ui-routerのコンテナにする -->
+  <md-content id="mainPanel" layout="row" flex ui-view></md-content>
+
+</body>
+
+<!--
+    ******************
+    以下、先読みスクリプト
+    ******************
+  -->
+
+<!--
+    トップページ
+    url: '/',
+    templateUrl: 'index.tpl',
+    controller: 'indexController',
+    controllerAs: 'indexCtrl'
+  -->
+<script type="text/ng-template" id="index.tpl">
+  <md-content id="index" md-component-id="index" flex layout="row" layout-margin layout-align="center start">
+    <md-card flex="66">
+      <md-card-content>
+        <h1>IPCOM VIP FINDER</h1>
+        <p>Card content</p>
+        <p>Card content</p>
+
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="center center">
+        <md-button aria-label="vip finder" ui-sref="vip">VIP Finder</md-button>
+      </md-card-actions>
+    </md-card>
+  </md-content>
+</script>
+
+<!--
+    VIPの検索と表示
+    ステート 'vip'
+    url: '/vip',
+    templateUrl: 'vip.tpl',
+    controller: 'vipController',
+    controllerAs: 'vipCtrl'
+  -->
+<script type="text/ng-template" id="vip.tpl">
+
+    <!-- データをローディングしている場合はProgress Linearを表示する -->
+    <md-content flex layout-padding ng-if="!vipCtrl.isDataFetched">
+      <md-progress-linear md-mode="query"></md-progress-linear>
+      <md-bottom-block>
+        <span><span class=""></span></span>
+      </md-bottom-block>
+    </md-content>
+
+    <!-- サイドバーとメインコンテンツで左右２つに割る -->
+
+    <!-- サイドバー -->
+    <md-sidenav id="sidenav" md-component-id="sidenav" class="site-sidenav md-sidenav-left md-whiteframe-z3" hide-print md-is-locked-open="!tc.hideSidenav();"  ng-if="vipCtrl.isDataFetched">
+
+      <!-- サイドバーのタイトルはmd-hue-1で色を少し薄くする -->
+      <md-toolbar class="md-toolbar-tools md-hue-1">
+        <h2>検索条件</h2>
+        <!--右寄せ-->
+        <span flex></span>
+        <md-button aria-label="close sidenav" class="md-icon-button" ng-show="tc.enableCloseSidenav();" ng-click="tc.closeSidenav();">
+          <!-- <md-icon md-svg-icon="close"></md-icon> -->
+          <md-icon md-font-icon="fa-times" class="fa fa-2x"></md-icon>
+        </md-button>
+      </md-toolbar>
+
+      <!-- サイドバーのコンテンツ -->
+      <md-content layout-padding ng-controller="searchParamController as searchCtrl">
+
+        <form name="searchParamsForm" novalidate layout-margin ng-submit="$event.preventDefault()">
+          <md-button class="md-raised md-primary" ng-click="searchCtrl.clear();">
+            条件クリア
+          </md-button>
+          <div layout="column">
+
+            <!-- 文字列検索 オートコンプリートの場合 -->
+            <md-autocomplete md-selected-item="searchCtrl.searchParam.md_selected_item" md-search-text="searchCtrl.searchParam.searchString" md-items="item in searchCtrl.md_items(searchCtrl.searchParam.searchString)" md-item-text="item" md-min-length="0" md-floating-label="文字列検索">
+              <md-item-template>
+                <span md-highlight-text="searchCtrl.searchParam.searchString" md-highlight-flags="^i">{{item}}</span>
+              </md-item-template>
+              <md-not-found>{{searchCtrl.searchParam.searchString}}</md-not-found>
+            </md-autocomplete>
+
+            <!-- 文字列検索 inputの場合 -->
+            <!--
+            <md-input-container>
+              <label>文字列検索</label>
+              <input name="search" ng-model="searchCtrl.searchParam.searchString" ng-model-options="{debounce:100}" autocomplete="off" md-sidenav-focus/>
+              <md-tooltip md-direction="right">IPアドレスやホスト名など、任意の文字列で検索します。</md-tooltip>
+            </md-input-container>
+            -->
+
+            <!-- 場所指定のセレクタ -->
+            <md-input-container>
+              <label>データセンタの指定</label>
+              <md-select name="place" ng-model="searchCtrl.searchParam.place">
+                <md-optgroup label="場所">
+                  <md-option ng-repeat="place in searchCtrl.places">{{::place}}</md-option>
+                </md-optgroup>
+              </md-select>
+              <md-tooltip md-direction="right">IPCOMのホスト名の命名ルールに従って場所を指定します。</md-tooltip>
+            </md-input-container>
+
+            <!-- プレフィクスのセレクタ -->
+            <md-input-container>
+              <label>プレフィクスの指定</label>
+              <md-select name="place" ng-model="searchCtrl.searchParam.prefix">
+                <md-optgroup label="プレフィクス">
+                  <md-option ng-repeat="prefix in searchCtrl.prefixes">{{::prefix}}</md-option>
+                </md-optgroup>
+              </md-select>
+              <md-tooltip md-direction="right">よく使うプレフィクスの中から選択します。</md-tooltip>
+            </md-input-container>
+
+            <!-- IPCOMのホスト名のセレクタ -->
+            <md-input-container>
+              <label>IPCOMの指定</label>
+              <md-select name="place" ng-model="searchCtrl.searchParam.ipcom">
+                <md-optgroup label="IPCOM">
+                  <md-option ng-repeat="ipcom in searchCtrl.ipcom_hostnames">{{::ipcom}}</md-option>
+                </md-optgroup>
+              </md-select>
+              <md-tooltip md-direction="right">特定のIPCOMを指定します。</md-tooltip>
+            </md-input-container>
+
+          </div>
+        </form>
+
+        <!-- デバッグ表示 -->
+        <div layout-margin>
+          <code>
+            {{ searchCtrl.searchParam | json}}
+          </code>
+        </div>
+
+      </md-content>
+    </md-sidenav>
+
+    <!-- メインコンテンツ -->
+    <md-content id="rightPanel" layout="column" flex layout-padding ng-controller="searchResultController as resultCtrl"  ng-if="vipCtrl.isDataFetched">
+
+      <!-- サイドナビを表示するボタン。画面サイズが小さいときだけこのボタンを出す -->
+      <div>
+        <span>
+          <md-button aria-label="open sidenav" class="md-fab md-mini" ng-click="tc.openSidenav();" ng-show="tc.enableShowSidenav();">
+            <!-- <md-icon md-svg-icon="menu"></md-icon> -->
+            <md-icon md-font-icon="fa-bars" class="fa"></md-icon>
+          </md-button>
+        </span>
+        <span>検索結果　{{ resultCtrl.filtered.length }}　件</span>
+      </div>
+
+      <div>
+        <md-list>
+          <md-list-item class="md-3-line" ng-click="resultCtrl.showDetail($event, item.id)" dir-paginate="item in resultCtrl.filtered | itemsPerPage : resultCtrl.itemsPerPage track by item.id">
+            <div class="md-list-item-text" layout="column">
+              <h3>{{item.address }} / {{item.port}}</h3>
+              <h4>{{item.description }}</h4>
+              <p>{{item.hostnames[0] }}</p>
+            </div>
+            <md-divider></md-divider>
+          </md-list-item>
+          <dir-pagination-controls max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+        </md-list>
+      </div>
+
+      <!-- メインコンテンツ・終わり -->
+    </md-content>
+
+    </md-content>
+
+  <!-- vip.tpl 終わり -->
+</script>
+
+
+<!--
+    詳細表示 'vip_detail'
+    url: '/vip_detail:{id}',
+    templateUrl: 'vip_detail.tpl',
+    controller: 'vipDetailController',
+    controllerAs: 'vipDetailCtrl'
+  -->
+<script type="text/ng-template" id="vip_detail.tpl">
+
+  <md-content id="vip_detail" layout-padding flex ng-if="vipDetailCtrl.selectedData">
+    <section layout="row" layout-wrap layout-align="center center">
+
+      <div flex-xs="100" flex-gt-xs="90" flex-gt-sm="80">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">VIP詳細</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout-margin>
+            <div layout="row">
+              <span flex="30">仮想IPアドレス</span>
+              <span flex="60">{{:: vipDetailCtrl.address}}</span>
+              <span flex></span>
+            </div>
+            <div layout="row">
+              <span flex="30">ポート</span>
+              <span flex="60">{{:: vipDetailCtrl.port}}</span>
+              <span flex></span>
+            </div>
+            <div layout="row">
+              <span flex="30">description</span>
+              <span flex="60">{{:: vipDetailCtrl.description}}</span>
+              <span flex></span>
+            </div>
+            <div layout="row">
+              <span flex="30">SLB ID</span>
+              <span flex="60">{{:: vipDetailCtrl.slb_id}}</span>
+              <span flex></span>
+            </div>
+            <div layout="row">
+              <span flex="30">IPCOM</span>
+              <span flex="60"><span ng-repeat="hostname in vipDetailCtrl.hostnames">{{:: hostname}} , </span></span>
+              <span flex></span>
+            </div>
+          </md-card-content>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button aria-label="back" md-no-ink ng-click="tc.back()">戻る</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+
+      <div flex-xs="100" flex-gt-xs="90" flex-gt-sm="80" ng-repeat="drule in vipDetailCtrl.distribution_rules">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">分散ルール {{:: drule.dist_id}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout-margin>
+            <div layout="row">
+              <span flex="30">分散ID</span>
+              <span flex="60">{{:: drule.dist_id}}</span>
+              <span flex></span>
+            </div>
+            <div layout="row">
+              <span flex="30">保証時間</span>
+              <span flex="60">{{:: drule.guarantee}}</span>
+              <span flex></span>
+            </div>
+            <div layout="row">
+              <span flex="30">リアルサーバ</span>
+              <span flex="60"><span ng-repeat="real in drule.real"> {{:: real }} , </span></span>
+              <span flex></span>
+            </div>
+          </md-card-content>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button aria-label="back" md-no-ink ng-click="tc.back()">戻る</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+
+      <div flex-xs="100" flex-gt-xs="90" flex-gt-sm="80">
+        <md-card ng-if="vipDetailCtrl.real_server_map">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">リアルサーバ・アドレス</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout-margin>
+            <div layout="row" ng-repeat="(key, value) in vipDetailCtrl.real_server_map">
+              <span flex="30"><a ui-sref="vip_real({real: key})">{{:: key}}</a></span>
+              <span flex="60">{{:: value }}</span>
+              <span flex></span>
+            </div>
+          </md-card-content>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button aria-label="back" md-no-ink ng-click="tc.back()">戻る</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+
+      <div flex-xs="100" flex-gt-xs="90" flex-gt-sm="80">
+        <md-card ng-if="vipDetailCtrl.settingParam.debug">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">debug</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content>
+            <ul ng-repeat="(key, value) in vipDetailCtrl.selectedData">
+              <li>{{:: key}} : {{:: value}}</li>
+            </ul>
+          </md-card-content>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button aria-label="back" md-no-ink ng-click="tc.back()">戻る</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+
+    </section>
+  </md-content>
+
+</script>
+
+</html>
