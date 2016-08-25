@@ -1,0 +1,5 @@
+[flake8]
+ignore = E111,I100,I201,H306,E121,D203,D204,C901
+max-line-length = 200
+exclude = log/*,lib/site-packages/*
+max-complexity = 10
