@@ -139,7 +139,7 @@
     // データの採取が完了しているか否か
     svc.isDataFetched = false;
 
-    // サービス初期化時にデータをロードする
+    // サービス初期化時にJSONデータをロードする
     // heredocが定義されているなら文字列からデータを復元し、そうでないならHTTPでJSONデータを取りに行く
     if (iida.heredoc.slb) {
       console.log('heredocからデータを復元します');
@@ -361,15 +361,16 @@
       }, function(newValue, oldValue) {
         ctrl.isDataFetched = newValue;
         if (handler && ctrl.isDataFetched) {
+          // データの取得が完了すれば、それ以降はウォッチ不要
           handler();
           showToast(dataService.ipcom_slb_rules.length.toString() + '件のSLBルールを取得しました');
         }
       });
     }
 
-    function showToast(content) {
+    function showToast(message) {
       var toast = $mdToast.simple()
-        .content(content)
+        .content(message)
         .position('top right')
         .hideDelay(3000);
 
