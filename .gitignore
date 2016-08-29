@@ -1,3 +1,11 @@
+#
+# giboによる自動生成
+# 
+# $ gibo Windows Linux OSX Emacs vim python >> .gitignore
+#
+
+# libフォルダは復活させる
+
 # フォルダ単位で無視
 bin/
 data/
@@ -156,7 +164,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
