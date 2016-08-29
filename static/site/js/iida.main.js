@@ -157,6 +157,7 @@
         .then(function(data) {
           console.log(data);
           // dataオブジェクトの'vip'キーに必要なJSONデータが入っているので、これを渡して整形する
+          // ただし、PythonのサーバでJSONファイルの読み込みに失敗するとnullで返ってくることもある
           parseJson(data.vip);
         })
         .catch(function(data, status) {
@@ -171,6 +172,10 @@
     //    ipcom_inventories: [{インベントリ}, {}, ...],
     // }
     function parseJson(j) {
+      if (!j) {
+        return;
+      }
+
       // ホスト名一覧はそのまま利用
       svc.ipcom_hostnames = [].concat(j['ipcom_hostnames']);
 

@@ -81,6 +81,11 @@ def load_json(file_path):
 
 # jsonを保管するオブジェクト
 # dataフォルダのoutput.jsonファイルを読み取る
+# 読み込めない場合は処理終了
+#
+# それとも何かダミーデータを作る？
+# if not os.path.exists(here('./data')):
+#   os.mkdir(here('./data'))
 try:
   _vip = load_json(here("./data/output.json"))
 except Exception:
