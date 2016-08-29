@@ -253,7 +253,7 @@
 
       <div>
         <md-list>
-          <md-list-item class="md-3-line" ng-click="resultCtrl.showDetail($event, item.id)" dir-paginate="item in resultCtrl.filtered | orderBy : 'address' | itemsPerPage : resultCtrl.itemsPerPage track by item.id">
+          <md-list-item class="md-3-line" ng-click="resultCtrl.showDetail($event, item.id)" md-no-ink  dir-paginate="item in resultCtrl.filtered | orderBy : 'address' | itemsPerPage : resultCtrl.itemsPerPage track by item.id">
             <div class="md-list-item-text" layout="column">
               <h3>{{item.address }} / {{item.port}}</h3>
               <h4>{{item.description }}</h4>

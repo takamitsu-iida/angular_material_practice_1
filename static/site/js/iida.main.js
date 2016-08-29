@@ -139,6 +139,9 @@
     // データの採取が完了しているか否か
     svc.isDataFetched = false;
 
+    // データがエラーか否か
+    svc.isDataError = false;
+
     // サービス初期化時にJSONデータをロードする
     // heredocが定義されているなら文字列からデータを復元し、そうでないならHTTPでJSONデータを取りに行く
     if (iida.heredoc.slb) {
@@ -173,6 +176,7 @@
     // }
     function parseJson(j) {
       if (!j) {
+        svc.isDataError = true;
         return;
       }
 

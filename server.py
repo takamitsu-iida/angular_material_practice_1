@@ -4,9 +4,10 @@ u"""WebフレームワークBottleを使ってデータを公開するスクリ�
 依存外部モジュール
   jsonpickle
 """
-# 接頭辞uをつけない文字列をunicodeにする
-# unicode_literalsをインポートすると、ASCIIを期待している部分にはb"key"のようにbが必要になるので要注意
+# unicode_literalsをインポートすると、文字列に接頭辞uを付けなくてもunicodeとして扱われる
+# ただし、ASCIIを期待している部分にはb"key"のようにbが必要になるので要注意
 from __future__ import unicode_literals
+# print_functionをインポートするとprintがPython3と同じ書式になる
 # print('Hello World') 改行あり
 # print('Hello World', end='') 改行なし
 from __future__ import print_function
