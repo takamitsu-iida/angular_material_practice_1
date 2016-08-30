@@ -86,11 +86,9 @@ def load_json(file_path):
 
 # jsonを保管するオブジェクト
 # dataフォルダのoutput.jsonファイルを読み取る
-if not os.path.exists(here('./data')):
-  os.mkdir(here('./data'))
 # 期待しているJSONファイル(output.json)が存在しない場合は、ダミーのデータを作成する
 if not os.path.exists(here('./data/output.json')):
-  DUMMY = {
+  _vip = {
     "ipcom_slb_rules": [
       {
         "description": "Web Server",
@@ -197,7 +195,6 @@ if not os.path.exists(here('./data/output.json')):
       }
     ]
   }
-  save_json(here('.data/output.json'), DUMMY)
 
 try:
   _vip = load_json(here("./data/output.json"))
