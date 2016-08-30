@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 u"""WebフレームワークBottleを使ってデータを公開するスクリプトです.
+
+動作に必要なモジュールは./libに置いてあるのでインストール不要。
+
 依存外部モジュール
-  jsonpickle
+  bottle
+  jsonpickle  https://github.com/jsonpickle/jsonpickle
 """
-# unicode_literalsをインポートすると、文字列に接頭辞uを付けなくてもunicodeとして扱われる
-# ただし、ASCIIを期待している部分にはb"key"のようにbが必要になるので要注意
+# unicode_literalsをインポートすると、ASCIIを期待している部分にはb"key"のようにbが必要になることがある
+# WISGIを直接触るような部分では必要
 from __future__ import unicode_literals
 # print_functionをインポートするとprintがPython3と同じ書式になる
 # print('Hello World') 改行あり
@@ -82,11 +86,119 @@ def load_json(file_path):
 
 # jsonを保管するオブジェクト
 # dataフォルダのoutput.jsonファイルを読み取る
-# 読み込めない場合は処理終了
-#
-# それとも何かダミーデータを作る？
-# if not os.path.exists(here('./data')):
-#   os.mkdir(here('./data'))
+if not os.path.exists(here('./data')):
+  os.mkdir(here('./data'))
+# 期待しているJSONファイル(output.json)が存在しない場合は、ダミーのデータを作成する
+if not os.path.exists(here('./data/output.json')):
+  DUMMY = {
+    "ipcom_slb_rules": [
+      {
+        "description": "Web Server",
+        "proto": "tcp",
+        "distribution_rules": [{
+          "real": ["S01", "S02", "S03", "S04", "S05"],
+          "guarantee": "3600s",
+          "persistence": "node",
+          "dist_id": "100"
+        }],
+        "real_server_map": {
+          "S01": "10.244.100.101",
+          "S02": "10.244.100.102",
+          "S03": "10.244.100.103",
+          "S04": "10.244.100.104",
+          "S05": "10.244.100.105"
+        },
+        "slb_id": "100",
+        "hostnames": [
+          "W-IPCOMEX-101",
+          "W-IPCOMEX-102"
+        ],
+        "address": "10.244.100.100",
+        "port": "80"
+      },
+      {
+        "description": "Web Server",
+        "proto": "tcp",
+        "distribution_rules": [{
+          "real": ["S11", "S12", "S13", "S14", "S15"],
+          "guarantee": "3600s",
+          "persistence": "node",
+          "dist_id": "100"
+        }],
+        "real_server_map": {
+          "T01": "10.224.100.111",
+          "T02": "10.224.100.112",
+          "T03": "10.224.100.113",
+          "T04": "10.224.100.114",
+          "T05": "10.224.100.115"
+        },
+        "slb_id": "100",
+        "hostnames": [
+          "W-IPCOMEX-103",
+          "W-IPCOMEX-104"
+        ],
+        "address": "10.224.100.100",
+        "port": "80"
+      },
+      {
+        "description": "Web Server",
+        "proto": "tcp",
+        "distribution_rules": [{
+          "real": ["S01", "S02", "S03", "S04", "S05"],
+          "guarantee": "3600s",
+          "persistence": "node",
+          "dist_id": "100"
+        }],
+        "real_server_map": {
+          "S01": "10.241.100.101",
+          "S02": "10.241.100.102",
+          "S03": "10.241.100.103",
+          "S04": "10.241.100.104",
+          "S05": "10.241.100.105"
+        },
+        "slb_id": "100",
+        "hostnames": [
+          "E-IPCOMEX-101",
+          "E-IPCOMEX-102"
+        ],
+        "address": "10.241.100.100",
+        "port": "80"
+      },
+      {
+        "description": "Web Server",
+        "proto": "tcp",
+        "distribution_rules": [{
+            "real": [
+              "S11",
+              "S12",
+              "S13",
+              "S14",
+              "S15"
+            ],
+            "guarantee": "3600s",
+            "persistence": "node",
+            "dist_id": "100"
+          }
+        ],
+        "real_server_map": {
+          "T01": "10.224.100.111",
+          "T02": "10.224.100.112",
+          "T03": "10.224.100.113",
+          "T04": "10.224.100.114",
+          "T05": "10.224.100.115"
+        },
+        "slb_id": "100",
+        "hostnames": [
+          "E-IPCOMEX-103",
+          "E-IPCOMEX-104"
+        ],
+        "address": "10.224.100.100",
+        "port": "80"
+      }
+    ]
+  }
+  save_json(here('.data/output.json'), DUMMY)
+
 try:
   _vip = load_json(here("./data/output.json"))
 except Exception:
