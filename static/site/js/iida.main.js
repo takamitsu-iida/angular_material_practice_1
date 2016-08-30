@@ -181,10 +181,14 @@
       }
 
       // ホスト名一覧はそのまま利用
-      svc.ipcom_hostnames = [].concat(j['ipcom_hostnames']);
+      if ('ipcom_hostnames' in j) {
+        svc.ipcom_hostnames = [].concat(j['ipcom_hostnames']);
+      }
 
       // インベントリ一覧の中に含まれるコンフィグはbase64でエンコードされているのでそれを復元
-      svc.ipcom_inventories = [].concat(j['ipcom_inventories']);
+      if ('ipcom_inventories' in j) {
+        svc.ipcom_inventories = [].concat(j['ipcom_inventories']);
+      }
       angular.forEach(svc.ipcom_inventories, function(d) {
         var config_base64 = d.config;
         // 空白文字が含まれるとIEはエラーを吐くので、空白文字を削除する
@@ -193,8 +197,9 @@
       });
 
       // SLBルールの配列
-      svc.ipcom_slb_rules = [].concat(j['ipcom_slb_rules']);
-
+      if ('ipcom_slb_rules' in j) {
+        svc.ipcom_slb_rules = [].concat(j['ipcom_slb_rules']);
+      }
       // SLBルールには通し番号となるidを追加しておく
       angular.forEach(svc.ipcom_slb_rules, function(v, i) {
         v.id = i + 1; // iは0はじまりなので+1する

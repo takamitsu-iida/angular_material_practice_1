@@ -197,10 +197,9 @@ if not os.path.exists(here('./data/output.json')):
   }
 else:
   try:
-    _vip = load_json(here("./data/output.json"))
+    _vip = load_json(here('./data/output.json'))
   except Exception:
     sys.exit(0)
-
 
 # GETメソッドで_vipを返却
 @get('/data/vip')
