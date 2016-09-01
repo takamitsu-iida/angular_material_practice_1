@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 u"""WebフレームワークBottleを使ってデータを公開するスクリプトです.
 
-動作に必要なモジュールは./libに置いてあるのでインストール不要。
+動作に必要なモジュールは./py-libに置いてあるのでインストール不要。
 
 依存外部モジュール
   bottle
@@ -36,9 +36,9 @@ def here(path=''):
   u"""相対パスを絶対パスに変換して返却します."""
   return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
 
-# ./libフォルダにおいたpythonスクリプトを読みこませるための処理
-sys.path.append(here('./lib'))
-sys.path.append(here('./lib/site-packages'))
+# ./py-libフォルダにおいたpythonスクリプトを読みこませるための処理
+sys.path.append(here('./py-lib'))
+sys.path.append(here('./py-lib/site-packages'))
 
 # bottleフレームワークを読み込む
 import bottle
