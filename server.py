@@ -53,9 +53,6 @@ from bottle import static_file
 from bottle import template
 # from bottle import hook
 
-# bottleのデバッグを有効にして、エラー時に詳細な情報を出力する
-bottle.debug(True)
-
 import jsonpickle
 jsonpickle.set_preferred_backend('json')
 jsonpickle.set_encoder_options('json', sort_keys=False, indent=2)
@@ -484,6 +481,7 @@ def main():
     BOTTLE_PORT = 5000
 
   bottle.run(host=BOTTLE_HOSTNAME, port=BOTTLE_PORT, debug=True, reloader=True)
+  sys.exit(0)
 
 if __name__ == '__main__':
   main()
