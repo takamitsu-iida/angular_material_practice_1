@@ -55,7 +55,7 @@ from bottle import template
 
 import jsonpickle
 jsonpickle.set_preferred_backend('json')
-jsonpickle.set_encoder_options('json', sort_keys=False, indent=2)
+jsonpickle.set_encoder_options('json', sort_keys=False, indent=2, ensure_ascii=False)
 # jsonpickleの使い方
 # デフォルトでは余計なクラス情報が付加されるので、unpicklableはFalseに指定する
 # json_string = jsonpickle.encode(obj, unpicklable=False)
