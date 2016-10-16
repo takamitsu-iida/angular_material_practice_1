@@ -25,16 +25,17 @@
       .primaryPalette('deep-purple')
       .accentPalette('indigo');
 
-    // アイコンを登録
-    // 要http-server
-    // index.htmlをローカルファイルとして開くとクロスドメインでの読み込みになり、うまく動かない
-    // フォントとして読むのがいいのかもしれないけど、それならfont-awesomeの方が使い勝手が良い
-    /*
+    // SVGアイコンを登録
+    // https://design.google.com/icons/
+    // テンプレートとして先読みしておく
+    // <md-icon md-svg-icon="menu"></md-icon>
     $mdIconProvider
-      .icon("menu", "./static/site/svg/ic_menu_white_24px.svg", 24)
-      .icon("close", "./static/site/svg/ic_close_white_24px.svg", 24)
-      .icon("setting", "./static/site/svg/ic_settings_white_24px.svg", 24);
-    */
+      .icon('back', 'ic_arrow_back_black_24px.svg.tpl', 24)
+      .icon('menu', 'ic_menu_white_24px.svg.tpl', 24)
+      .icon('close', 'ic_close_white_24px.svg.tpl', 24)
+      .icon('setting', 'ic_settings_white_24px.svg.tpl', 24)
+      .icon('play', 'ic_play_circle_filled_white_24px.svg.tpl', 24);
+    //
   }]);
 
   // $log.debug();によるデバッグメッセージの表示・非表示設定

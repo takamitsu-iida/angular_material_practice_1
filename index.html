@@ -48,6 +48,31 @@
   <script src="./static/angular-material-1.1.1/angular-material.min.js"></script>
   <link href="./static/angular-material-1.1.1/angular-material.min.css" rel="stylesheet">
 
+  <!-- Angular material用SVGアイコンの登録 -->
+  <script type="text/ng-template" id="ic_menu_white_24px.svg.tpl">
+    <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+  </script>
+
+  <script type="text/ng-template" id="ic_close_white_24px.svg.tpl">
+    <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+  </script>
+
+  <script type="text/ng-template" id="ic_settings_white_24px.svg.tpl">
+    <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+  </script>
+
+  <script type="text/ng-template" id="ic_play_circle_filled_white_24px.svg.tpl">
+    <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+  </script>
+
+  <script type="text/ng-template" id="ic_clear_white_24px.svg.tpl">
+    <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+  </script>
+
+  <script type="text/ng-template" id="ic_arrow_back_black_24px.svg.tpl">
+    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  </script>
+
   <!-- Angular materialはRobotoフォントを前提にしている -->
   <!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900,300italic,400italic,500italic,700italic,900italic"> -->
 
@@ -89,8 +114,7 @@
       <md-button aria-label="setting">リンク3</md-button>
       <!-- 設定用のアイコン(仮置き) -->
       <md-button aria-label="setting" class="md-icon-button">
-        <!-- <md-icon md-svg-icon="setting"></md-icon> -->
-        <md-icon md-font-icon="fa-gear" class="fa fa-2x"></md-icon>
+        <md-icon md-svg-icon="setting"></md-icon>
       </md-button>
     </div>
   </md-toolbar>
@@ -160,8 +184,7 @@
         <!--右寄せ-->
         <span flex></span>
         <md-button aria-label="close sidenav" class="md-icon-button" ng-show="tc.enableCloseSidenav();" ng-click="tc.closeSidenav();">
-          <!-- <md-icon md-svg-icon="close"></md-icon> -->
-          <md-icon md-font-icon="fa-times" class="fa fa-2x"></md-icon>
+          <md-icon md-svg-icon="close"></md-icon>
         </md-button>
       </md-toolbar>
 
@@ -243,8 +266,7 @@
         <!-- サイドナビを表示するボタン。画面サイズが小さいときだけこのボタンを出す -->
         <span>
           <md-button aria-label="open sidenav" class="md-fab md-mini" ng-click="tc.openSidenav()" ng-show="tc.enableShowSidenav()">
-            <!-- <md-icon md-svg-icon="menu"></md-icon> -->
-            <md-icon md-font-icon="fa-bars" class="fa"></md-icon>
+            <md-icon md-svg-icon="menu"></md-icon>
           </md-button>
         </span>
         <!-- 検索結果の数を表示する -->
